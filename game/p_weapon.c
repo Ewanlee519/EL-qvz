@@ -815,7 +815,7 @@ BLASTER / HYPERBLASTER
 
 void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, int effect)
 {
-	vec3_t	forward, right;
+	vec3_t	forward, backward, right, left;
 	vec3_t	start;
 	vec3_t	offset;
 
@@ -829,7 +829,27 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
+	int randint = rand() % 5;
+
+	switch (randint) {
+	case 0:
+		fire_blaster(ent, start, forward, damage, 1000, effect, true);
+		break;
+	case 1:
+		fire_rocket(ent, start, forward, damage, 650, 120, 120);
+		break;
+	case 2:
+		fire_grenade(ent, start, forward, damage, 600, 2.5, 200); 
+		break;
+	case 3:
+		fire_bfg(ent, start, forward, damage, 400, 1000); 
+		break;
+	case 4:
+		fire_rail(ent, start, forward, damage, 200);
+		break;
+	default:
+		break;
+	}
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1358,7 +1378,7 @@ void Weapon_Railgun (edict_t *ent)
 
 /*
 ======================================================================
-
+h
 BFG10K
 
 ======================================================================
