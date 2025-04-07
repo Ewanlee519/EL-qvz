@@ -829,6 +829,39 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
+	edict_t* monster;
+
+	// Spawn the flipper monster at the player's location
+	monster = G_Spawn();
+
+	
+	SP_monster_berserk(monster);
+	//SP_monster_gladiator(monster);
+	//SP_monster_gunner(monster);
+	//SP_monster_infantry(monster);
+	//SP_monster_soldier_light(monster);
+	//SP_monster_soldier(monster);
+	//SP_monster_soldier_ss(monster);
+	//SP_monster_tank(monster);
+	//SP_monster_tank(monster);
+	//SP_monster_medic(monster);
+	//SP_monster_flipper(monster);
+	//SP_monster_chick(monster);
+	//SP_monster_parasite(monster);
+	//SP_monster_flyer(monster);
+	//SP_monster_brain(monster);
+	//SP_monster_floater(monster);
+	//SP_monster_hover(monster);
+	//SP_monster_mutant(monster);
+	//SP_monster_supertank(monster);
+	//SP_monster_boss2(monster);
+	//SP_monster_boss3_stand(monster);
+	//SP_monster_jorg(monster);
+
+	// Set the position of the flipper monster (e.g., spawn it slightly above the player)
+	VectorCopy(ent->s.origin, monster->s.origin);
+	VectorMA(monster->s.origin, 128, forward, monster->s.origin);
+
 	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
 
 	// send muzzle flash
