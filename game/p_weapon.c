@@ -834,23 +834,21 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	// Spawn the flipper monster at the player's location
 	monster = G_Spawn();
 
-	
-	SP_monster_berserk(monster);
-	//SP_monster_gladiator(monster);
-	//SP_monster_gunner(monster);
-	//SP_monster_infantry(monster);
+	//SP_monster_berserk(monster); // berserker
+	//SP_monster_gladiator(monster); // gladiator
+	//SP_monster_gunner(monster); // gunner
+	//SP_monster_infantry(monster); // enforcer
 	//SP_monster_soldier_light(monster);
 	//SP_monster_soldier(monster);
 	//SP_monster_soldier_ss(monster);
-	//SP_monster_tank(monster);
-	//SP_monster_tank(monster);
-	//SP_monster_medic(monster);
-	//SP_monster_flipper(monster);
-	//SP_monster_chick(monster);
-	//SP_monster_parasite(monster);
-	//SP_monster_flyer(monster);
-	//SP_monster_brain(monster);
-	//SP_monster_floater(monster);
+	//SP_monster_tank(monster); // tank
+	//SP_monster_medic(monster); // medic
+	//SP_monster_flipper(monster); // barracude
+	//SP_monster_chick(monster); // iron maiden
+	//SP_monster_parasite(monster); // parasite
+	//SP_monster_flyer(monster); // flyer
+	//SP_monster_brain(monster); // brains
+	//SP_monster_floater(monster); // technician
 	//SP_monster_hover(monster);
 	//SP_monster_mutant(monster);
 	//SP_monster_supertank(monster);
@@ -858,7 +856,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	//SP_monster_boss3_stand(monster);
 	//SP_monster_jorg(monster);
 
-	// Set the position of the flipper monster (e.g., spawn it slightly above the player)
+	//// Set the position of the flipper monster (e.g., spawn it slightly above the player)
 	VectorCopy(ent->s.origin, monster->s.origin);
 	VectorMA(monster->s.origin, 128, forward, monster->s.origin);
 

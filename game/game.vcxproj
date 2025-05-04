@@ -85,7 +85,7 @@
     <IntDir>.\release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>gamex86</TargetName>
-    <OutDir>..\..\..\..\OneDrive\Desktop\NJIT Stuff\SP25\IT266\quake2-8.41\ewanmod</OutDir>
+    <OutDir>..\ewanmod</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Alpha|Win32'">
     <OutDir>..\..\..\..\OneDrive\Desktop\NJIT Stuff\SP25\IT266\quake2-8.41\ewanmod</OutDir>

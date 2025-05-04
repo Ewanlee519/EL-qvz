@@ -899,6 +899,25 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+void Cmd_Plant_f(edict_t* ent) {
+	vec3_t forward, offset;
+	int plant;
+
+	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+	VectorSet(offset, 0, 0, 10);
+	edict_t* monster;
+
+	// Spawn the flipper monster at the player's location
+	monster = G_Spawn();
+
+	SP_monster_floater(monster);
+	monster->plant = true;
+
+	VectorCopy(ent->s.origin, monster->s.origin);
+	VectorMA(monster->s.origin, 128, forward, monster->s.origin);
+	VectorSet(monster->s.origin, monster->s.origin[0], monster->s.origin[1], 10);
+}
+
 
 /*
 =================
@@ -987,6 +1006,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "plant") == 0)
+		Cmd_Plant_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

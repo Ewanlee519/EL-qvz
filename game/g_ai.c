@@ -386,6 +386,36 @@ void FoundTarget (edict_t *self)
 	self->monsterinfo.run (self);
 }
 
+edict_t* FindMonster(edict_t* self)
+{
+	edict_t* ent = NULL;
+	edict_t* best = NULL;
+
+	while ((ent = findradius(ent, self->s.origin, 1024)) != NULL) 
+	{
+		if (ent == self)
+			continue;
+		if (!(ent->svflags & SVF_MONSTER))
+			continue;
+		if (ent->client)
+			continue;
+		if (!ent->health)
+			continue;
+		if (ent->health < 1)
+			continue;
+		if (!visible(self, ent))
+			continue;
+		if (!best) {
+			best = ent;
+			continue;
+		}
+		if (ent->max_health <= best->max_health)
+			continue;
+		best = ent;
+	}
+
+	return best;
+}
 
 /*
 ===========
@@ -409,6 +439,7 @@ qboolean FindTarget (edict_t *self)
 	edict_t		*client;
 	qboolean	heardit;
 	int			r;
+	edict_t		*monster;
 
 	if (self->monsterinfo.aiflags & AI_GOOD_GUY)
 	{
@@ -420,6 +451,13 @@ qboolean FindTarget (edict_t *self)
 
 		//FIXME look for monsters?
 		return false;
+	}
+
+	monster = FindMonster(self);
+	if (monster) {
+		self->enemy = monster;
+		FoundTarget(self);
+		return true;
 	}
 
 	// if we're going to a combat point, just proceed

@@ -310,6 +310,8 @@ void HelpComputer (edict_t *ent)
 		sk = "medium";
 	else if (skill->value == 2)
 		sk = "hard";
+	else if (skill->value == 3)
+		sk = "pvz";
 	else
 		sk = "hard+";
 
