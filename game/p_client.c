@@ -1299,6 +1299,7 @@ void ClientBegin (edict_t *ent)
 
 	ent->client = game.clients + (ent - g_edicts - 1);
 
+
 	if (deathmatch->value)
 	{
 		ClientBeginDeathmatch (ent);

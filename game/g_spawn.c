@@ -980,5 +980,12 @@ void SP_worldspawn (edict_t *ent)
 
 	// 63 testing
 	gi.configstring(CS_LIGHTS+63, "a");
+
+	if (skill->value == 3 && Q_stricmp(level.mapname, "base1") == 0) {
+		// Only redirect from the first map, to prevent infinite loops
+		gi.AddCommandString("gamemap pvz\n");
+		return;
+	}
+
 }
 
