@@ -1110,6 +1110,9 @@ struct edict_s
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
 
-	qboolean		plant;
+	qboolean		plantflag;
+	int				plant_num;
+	int				upgrade_cost;
+	int				plantid;
 };
 

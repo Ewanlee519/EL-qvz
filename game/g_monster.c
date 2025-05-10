@@ -717,7 +717,7 @@ void flymonster_start (edict_t *self)
 	self->flags |= FL_FLY;
 	if (skill->value == 3) {
 		self->monsterinfo.aiflags |= AI_STAND_GROUND;
-		self->plant = true;
+		self->plantflag = true;
 	}
 	self->think = flymonster_start_go;
 	monster_start (self);

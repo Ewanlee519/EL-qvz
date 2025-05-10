@@ -401,7 +401,7 @@ edict_t* FindMonster(edict_t* self)
 			continue;
 		if (ent->client != NULL)
 			continue;
-		if (ent->plant)
+		if (ent->plantflag)
 			continue;
 		if (!ent->health)
 			continue;
@@ -457,7 +457,7 @@ qboolean FindTarget(edict_t* self)
 		return false;
 	}
 
-	if (self->plant) {
+	if (self->plantflag) {
 		monster = FindMonster(self);
 		if (monster) {
 			self->enemy = monster;

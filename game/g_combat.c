@@ -386,7 +386,7 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 	if (!targ->takedamage)
 		return;
 
-	if ((targ->plant && attacker->client) || (targ->client && attacker->plant)) {
+	if ((targ->plantflag && attacker->client) || (targ->client && attacker->plantflag)) {
 		return;
 	}
 
