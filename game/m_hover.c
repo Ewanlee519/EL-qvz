@@ -607,8 +607,10 @@ void SP_monster_hover (edict_t *self)
 	self->monsterinfo.walk = hover_walk;
 	self->monsterinfo.run = hover_run;
 //	self->monsterinfo.dodge = hover_dodge;
-	//self->monsterinfo.attack = hover_start_attack;
-	//self->monsterinfo.sight = hover_sight;
+	if (skill->value != 3) {
+		self->monsterinfo.attack = hover_start_attack;
+		self->monsterinfo.sight = hover_sight;
+	}
 	self->monsterinfo.search = hover_search;
 
 	gi.linkentity (self);

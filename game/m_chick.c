@@ -664,9 +664,11 @@ void SP_monster_chick (edict_t *self)
 	self->monsterinfo.walk = chick_walk;
 	self->monsterinfo.run = chick_run;
 	self->monsterinfo.dodge = chick_dodge;
-	self->monsterinfo.attack = chick_attack;
-	self->monsterinfo.melee = chick_melee;
-	self->monsterinfo.sight = chick_sight;
+	if (skill->value != 3) {
+		self->monsterinfo.attack = chick_attack;
+		self->monsterinfo.melee = chick_melee;
+		self->monsterinfo.sight = chick_sight;
+	}
 
 	gi.linkentity (self);
 

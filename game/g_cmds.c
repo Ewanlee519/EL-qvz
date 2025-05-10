@@ -400,6 +400,13 @@ void Cmd_Use_f (edict_t *ent)
 	char		*s;
 
 	s = gi.args();
+
+	if (skill->value == 3) {
+		qboolean p = PlantIndex(s);
+		if(p)
+			return;
+	}
+
 	it = FindItem (s);
 	if (!it)
 	{
@@ -897,142 +904,6 @@ void Cmd_PlayerList_f(edict_t *ent)
 		strcat(text, st);
 	}
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
-}
-
-void Cmd_Plant_f(edict_t* ent) {
-	vec3_t start, forward, offset, end;
-	int plant=0;
-
-	if (!ent) return;
-
-	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
-	VectorSet(offset, 0, 0, 10);
-	edict_t* monster;
-
-	monster = G_Spawn();
-
-	switch (plant) {
-	case 0:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 1:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 2:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 3:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 4:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 5:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 6:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 7:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 8:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	case 9:
-		monster->classname = "monster_chick";
-		SP_monster_chick(monster);
-		break;
-	default:
-		break;
-	}
-
-	//SP_monster_berserk(monster); // berserker
-	//SP_monster_gladiator(monster); // gladiator
-	//SP_monster_gunner(monster); // gunner
-	//SP_monster_infantry(monster); // enforcer
-	//SP_monster_soldier_light(monster);
-	//SP_monster_soldier(monster);
-	//SP_monster_soldier_ss(monster);
-	//SP_monster_tank(monster); // tank
-	//SP_monster_medic(monster); // medic
-	//SP_monster_flipper(monster); // barracuda
-	//SP_monster_chick(monster); // iron maiden
-	//SP_monster_parasite(monster); // parasite
-	//SP_monster_flyer(monster); // DOES NOT EXIST
-	//SP_monster_brain(monster); // brains
-	//SP_monster_floater(monster); // technician
-	//SP_monster_hover(monster); // icarus
-	//SP_monster_mutant(monster);
-	//SP_monster_supertank(monster); // 
-	//SP_monster_boss2(monster);
-	//SP_monster_boss3_stand(monster);
-	//SP_monster_jorg(monster);
-
-	monster->plant = true;
-	gi.dprintf(monster->classname, "\n");
-
-	VectorCopy(ent->s.origin, monster->s.origin);
-	VectorMA(monster->s.origin, 128, forward, monster->s.origin);
-	
-	VectorSet(monster->s.origin, monster->s.origin[0], monster->s.origin[1], ent->viewheight);
-	M_droptofloor(monster);
-	monster->monsterinfo.aiflags |= AI_STAND_GROUND;
-
-}
-
-void Cmd_Interact_f(edict_t* ent) {
-	vec3_t forward, start, end;
-	edict_t* plant;
-
-	trace_t tr;
-
-	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
-	VectorCopy(ent->s.origin, start);
-	start[2] += ent->viewheight;
-
-	VectorMA(start, 1024, forward, end);
-
-	tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
-
-	if (tr.ent && tr.ent->inuse && tr.ent != world) {
-		gi.dprintf("Hit entity: %s\n", tr.ent->classname ? tr.ent->classname : "no classname");
-	}
-	else {
-		gi.dprintf("Hit nothing\n");
-	}
-
-}
-
-void Cmd_StWave_f(edict_t* ent) {
-	vec3_t start, forward, offset, end;
-	int plant;
-
-	if (!ent) return;
-
-	AngleVectors(ent->client->v_angle, forward, NULL, NULL);
-	VectorSet(offset, 0, 0, 10);
-	edict_t* monster;
-
-	monster = G_Spawn();
-	
-	SP_monster_soldier_light(monster);
-	gi.dprintf(monster->classname, "\n");
-
-	VectorCopy(ent->s.origin, monster->s.origin);
-	VectorMA(monster->s.origin, 128, forward, monster->s.origin);
-
-	VectorSet(monster->s.origin, monster->s.origin[0], monster->s.origin[1], ent->viewheight);
-	M_droptofloor(monster);
 }
 
 /*

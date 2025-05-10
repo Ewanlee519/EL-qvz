@@ -675,8 +675,8 @@ void walkmonster_start_go (edict_t *self)
 		M_droptofloor (self);
 
 		if (self->groundentity)
-			if (!M_walkmove (self, 0, 0))
-				gi.dprintf ("%s in solid at %s\n", self->classname, vtos(self->s.origin));
+			if (!M_walkmove(self, 0, 0))
+				if (skill->value != 3) gi.dprintf("%s in solid at %s\n", self->classname, vtos(self->s.origin));
 	}
 	
 	if (!self->yaw_speed)
@@ -699,7 +699,7 @@ void walkmonster_start (edict_t *self)
 void flymonster_start_go (edict_t *self)
 {
 	if (!M_walkmove (self, 0, 0))
-		gi.dprintf ("%s in solid at %s\n", self->classname, vtos(self->s.origin));
+		if (skill->value != 3) gi.dprintf ("%s in solid at %s\n", self->classname, vtos(self->s.origin));
 
 	if (!self->yaw_speed)
 		self->yaw_speed = 10;
