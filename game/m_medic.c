@@ -45,6 +45,9 @@ static int	sound_hook_retract;
 
 edict_t *medic_FindDeadMonster (edict_t *self)
 {
+	if (skill->value == 3)
+		return NULL;
+
 	edict_t	*ent = NULL;
 	edict_t	*best = NULL;
 
@@ -95,6 +98,9 @@ void medic_idle (edict_t *self)
 
 void medic_search (edict_t *self)
 {
+	if (skill->value == 3)
+		return;
+
 	edict_t	*ent;
 
 	gi.sound (self, CHAN_VOICE, sound_search, 1, ATTN_IDLE, 0);
@@ -493,6 +499,8 @@ mmove_t medic_move_duck = {FRAME_duck1, FRAME_duck16, medic_frames_duck, medic_r
 
 void medic_dodge (edict_t *self, edict_t *attacker, float eta)
 {
+	if (skill->value == 3)
+		return;
 	if (random() > 0.25)
 		return;
 
@@ -696,7 +704,7 @@ mmove_t medic_move_attackCable = {FRAME_attack33, FRAME_attack60, medic_frames_a
 void medic_attack(edict_t *self)
 {
 	if (self->monsterinfo.aiflags & AI_MEDIC)
-		self->monsterinfo.currentmove = &medic_move_attackCable;
+		self->monsterinfo.currentmove = &medic_move_attackBlaster;
 	else
 		self->monsterinfo.currentmove = &medic_move_attackBlaster;
 }

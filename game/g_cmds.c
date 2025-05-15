@@ -402,7 +402,7 @@ void Cmd_Use_f (edict_t *ent)
 	s = gi.args();
 
 	if (skill->value == 3) {
-		qboolean p = PlantIndex(s);
+		qboolean p = PVZButtonMapping(s, ent);
 		if(p)
 			return;
 	}
@@ -628,6 +628,9 @@ Cmd_InvDrop_f
 */
 void Cmd_InvDrop_f (edict_t *ent)
 {
+	if (skill->value == 3) {
+		return;
+	}
 	gitem_t		*it;
 
 	ValidateSelectedItem (ent);
@@ -743,6 +746,12 @@ Cmd_Wave_f
 void Cmd_Wave_f (edict_t *ent)
 {
 	int		i;
+
+	if (skill->value == 3) {
+		qboolean p = PVZButtonMapping(gi.args(), ent);
+		if (p)
+			return;
+	}
 
 	i = atoi (gi.argv(1));
 
@@ -993,8 +1002,6 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f(ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
-	else if (Q_stricmp(cmd, "plant") == 0)
-		Cmd_Plant_f(ent);
 	else if (Q_stricmp(cmd, "interact") == 0)
 		Cmd_Interact_f(ent);
 	else if (Q_stricmp(cmd, "start_wave") == 0)

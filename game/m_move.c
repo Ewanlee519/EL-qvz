@@ -118,6 +118,8 @@ qboolean SV_movestep (edict_t *ent, vec3_t move, qboolean relink)
 	float		stepsize;
 	vec3_t		test;
 	int			contents;
+	
+	if (skill->value == 3) move[1] = 0;
 
 // try the move	
 	VectorCopy (ent->s.origin, oldorg);
@@ -307,6 +309,10 @@ void M_ChangeYaw (edict_t *ent)
 	float	current;
 	float	move;
 	float	speed;
+
+	if (skill->value == 3) {
+		return;
+	}
 	
 	current = anglemod(ent->s.angles[YAW]);
 	ideal = ent->ideal_yaw;

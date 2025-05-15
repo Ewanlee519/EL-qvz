@@ -715,7 +715,7 @@ void flymonster_start_go (edict_t *self)
 void flymonster_start (edict_t *self)
 {
 	self->flags |= FL_FLY;
-	if (skill->value == 3) {
+	if (skill->value == 3 && Q_stricmp(self->classname, "monster_hover")==0) {
 		self->monsterinfo.aiflags |= AI_STAND_GROUND;
 		self->plantflag = true;
 	}

@@ -315,22 +315,42 @@ void HelpComputer (edict_t *ent)
 	else
 		sk = "hard+";
 
-	// send the layout
-	Com_sprintf (string, sizeof(string),
-		"xv 32 yv 8 picn help "			// background
-		"xv 202 yv 12 string2 \"%s\" "		// skill
-		"xv 0 yv 24 cstring2 \"%s\" "		// level name
-		"xv 0 yv 54 cstring2 \"%s\" "		// help 1
-		"xv 0 yv 110 cstring2 \"%s\" "		// help 2
-		"xv 50 yv 164 string2 \" kills     goals    secrets\" "
-		"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ", 
-		sk,
-		level.level_name,
-		game.helpmessage1,
-		game.helpmessage2,
-		level.killed_monsters, level.total_monsters, 
-		level.found_goals, level.total_goals,
-		level.found_secrets, level.total_secrets);
+	if (skill->value == 3) {
+		// send the layout
+		Com_sprintf(string, sizeof(string),
+			"xv -52 yv -20 picn pvzhelp "			// background
+			"xv 202 yv 12 string2 \"%s\" "		// skill
+			"xv 0 yv 24 cstring2 \"%s\" "		// level name
+			"xv 0 yv 54 cstring2 \"%s\" "		// help 1
+			"xv 0 yv 110 cstring2 \"%s\" "		// help 2
+			"xv 50 yv 164 string2 \" Wave     goals    Zombies\" "
+			"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ",
+			sk,
+			level.level_name,
+			"custom message",
+			"another custom message",
+			level.killed_monsters, level.total_monsters,
+			ent->client->pers.sun, ent->client->pers.sun,
+			ent->client->pers.sun, ent->client->pers.sun);
+	}
+	else {
+		// send the layout
+		Com_sprintf(string, sizeof(string),
+			"xv 32 yv 8 picn help "			// background
+			"xv 202 yv 12 string2 \"%s\" "		// skill
+			"xv 0 yv 24 cstring2 \"%s\" "		// level name
+			"xv 0 yv 54 cstring2 \"%s\" "		// help 1
+			"xv 0 yv 110 cstring2 \"%s\" "		// help 2
+			"xv 50 yv 164 string2 \" kills     goals    secrets\" "
+			"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ",
+			sk,
+			level.level_name,
+			game.helpmessage1,
+			game.helpmessage2,
+			level.killed_monsters, level.total_monsters,
+			level.found_goals, level.total_goals,
+			level.found_secrets, level.total_secrets);
+	}
 
 	gi.WriteByte (svc_layout);
 	gi.WriteString (string);

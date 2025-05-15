@@ -283,9 +283,6 @@ void chick_pain (edict_t *self, edict_t *other, float kick, int damage)
 	else
 		gi.sound (self, CHAN_VOICE, sound_pain3, 1, ATTN_NORM, 0);
 
-	if (skill->value == 3)
-		return;		// no pain anims in nightmare
-
 	if (damage <= 10)
 		self->monsterinfo.currentmove = &chick_move_pain1;
 	else if (damage <= 25)
@@ -621,6 +618,16 @@ void chick_sight(edict_t *self, edict_t *other)
 	gi.sound (self, CHAN_VOICE, sound_sight, 1, ATTN_NORM, 0);
 }
 
+void chick_plant(edict_t* self, edict_t* other)
+{
+	return;
+}
+
+void chick_plant1(edict_t* self)
+{
+	return;
+}
+
 /*QUAKED monster_chick (1 .5 0) (-16 -16 -24) (16 16 32) Ambush Trigger_Spawn Sight
 */
 void SP_monster_chick (edict_t *self)
@@ -664,10 +671,15 @@ void SP_monster_chick (edict_t *self)
 	self->monsterinfo.walk = chick_walk;
 	self->monsterinfo.run = chick_run;
 	self->monsterinfo.dodge = chick_dodge;
-	if (skill->value != 3) {
-		self->monsterinfo.attack = chick_attack;
-		self->monsterinfo.melee = chick_melee;
-		self->monsterinfo.sight = chick_sight;
+	
+	self->monsterinfo.attack = chick_attack;
+	self->monsterinfo.melee = chick_melee;
+	self->monsterinfo.sight = chick_sight;
+
+	if (skill->value == 3) {
+		self->monsterinfo.attack = chick_plant1;
+		self->monsterinfo.melee = chick_plant1;
+		self->monsterinfo.sight = chick_plant;
 	}
 
 	gi.linkentity (self);

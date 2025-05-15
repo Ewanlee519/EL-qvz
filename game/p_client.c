@@ -626,7 +626,18 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_cells		= 200;
 	client->pers.max_slugs		= 50;
 
+	//For init pvz
+	if (skill->value == 3) {
+		client->pers.sun = 150;
+		client->pers.boomcount = 3;
+		client->pers.freezecount = 3;
+		client->pers.frenzcount = 3;
+		client->pers.upgcount = 5;
+		client->pers.plant_index = 1;
+	}
+
 	client->pers.connected = true;
+
 }
 
 

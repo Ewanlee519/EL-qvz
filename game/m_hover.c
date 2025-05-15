@@ -568,6 +568,17 @@ void hover_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage
 	self->monsterinfo.currentmove = &hover_move_death1;
 }
 
+void hover_plant(edict_t* self, edict_t* other)
+{
+	return;
+}
+
+void hover_plant1(edict_t* self)
+{
+	return;
+}
+
+
 /*QUAKED monster_hover (1 .5 0) (-16 -16 -24) (16 16 32) Ambush Trigger_Spawn Sight
 */
 void SP_monster_hover (edict_t *self)
@@ -600,18 +611,24 @@ void SP_monster_hover (edict_t *self)
 	self->gib_health = -100;
 	self->mass = 150;
 
-	self->pain = hover_pain;
-	self->die = hover_die;
+	
 
 	self->monsterinfo.stand = hover_stand;
 	self->monsterinfo.walk = hover_walk;
 	self->monsterinfo.run = hover_run;
 //	self->monsterinfo.dodge = hover_dodge;
-	if (skill->value != 3) {
-		self->monsterinfo.attack = hover_start_attack;
-		self->monsterinfo.sight = hover_sight;
-	}
+	self->pain = hover_pain;
+	self->die = hover_die;
+
+	self->monsterinfo.attack = hover_start_attack;
+	self->monsterinfo.sight = hover_sight;
 	self->monsterinfo.search = hover_search;
+
+	if (skill->value == 3) {
+		self->monsterinfo.attack = hover_plant1;
+		self->monsterinfo.sight = hover_plant;
+		self->monsterinfo.search = hover_plant1;
+	}
 
 	gi.linkentity (self);
 
@@ -620,3 +637,4 @@ void SP_monster_hover (edict_t *self)
 
 	flymonster_start (self);
 }
+

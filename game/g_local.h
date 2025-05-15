@@ -862,6 +862,14 @@ typedef struct
 	int			helpchanged;
 
 	qboolean	spectator;			// client is a spectator
+
+	// How much sun the player has
+	int			sun;
+	int			freezecount;
+	int			boomcount;
+	int			frenzcount;
+	int			upgcount;
+	int			plant_index;
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -1110,9 +1118,11 @@ struct edict_s
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
 
+	// For all my plants vs zombies needs
 	qboolean		plantflag;
 	int				plant_num;
 	int				upgrade_cost;
+	int				plant_cost;
 	int				plantid;
 };
 

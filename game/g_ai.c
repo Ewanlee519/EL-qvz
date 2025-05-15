@@ -388,36 +388,49 @@ void FoundTarget(edict_t* self)
 
 // All credit to Paril on this website: https://www.moddb.com/games/quake-2/tutorials/monsters-fighting-each-other 
 
-edict_t* FindMonster(edict_t* self)
+edict_t* PVZFindEnemy(edict_t* self)
 {
-	edict_t* ent = NULL;
+	vec3_t start, end, forward;
+	trace_t tr;
+	edict_t* target;
 	edict_t* best = NULL;
 
-	while ((ent = findradius(ent, self->s.origin, 1024)) != NULL)
-	{
-		if (ent == self)
-			continue;
-		if (!(ent->svflags & SVF_MONSTER))
-			continue;
-		if (ent->client != NULL)
-			continue;
-		if (ent->plantflag)
-			continue;
-		if (!ent->health)
-			continue;
-		if (ent->health < 1)
-			continue;
-		if (!visible(self, ent))
-			continue;
-		if (!best) {
-			best = ent;
-			continue;
-		}
-		if (ent->max_health <= best->max_health)
-			continue;
-		best = ent;
-	}
+	AngleVectors(self->s.angles, forward, NULL, NULL); // Get forward vector
 
+	VectorCopy(self->s.origin, start);
+	start[2] += self->viewheight; // Adjust to eye height
+
+	// Trace forward in increments (simulate a cone of vision)
+	for (float dist = 128; dist <= 1024; dist += 128) {
+		VectorMA(start, dist, forward, end); // end = start + forward * dist
+
+		tr = gi.trace(start, NULL, NULL, end, self, MASK_SHOT);
+
+		target = tr.ent;
+
+		if (!target || target == self)
+			continue;
+		if (!(target->svflags & SVF_MONSTER))
+			continue;
+		if (target->client != NULL)
+			continue;
+		if (self->plantflag) {
+			if (target->plantflag)
+				continue;
+		}
+		else {
+			if (!target->plantflag)
+				continue;
+			if (Q_stricmp(target->classname, "monster_hover") == 0)
+				continue;
+		}
+		if (!target->health || target->health < 1)
+			continue;
+
+		if (!best || target->max_health > best->max_health) {
+			best = target;
+		}
+	}
 	return best;
 }
 
@@ -445,6 +458,19 @@ qboolean FindTarget(edict_t* self)
 	int			r;
 	edict_t* monster;
 
+	if (skill->value == 3) {
+		monster = PVZFindEnemy(self);
+		if (monster) {
+			self->enemy = monster;
+			FoundTarget(self);
+			return true;
+		}
+		else {
+			self->enemy = NULL;
+			return false;
+		}
+	}
+
 	if (self->monsterinfo.aiflags & AI_GOOD_GUY)
 	{
 		if (self->goalentity && self->goalentity->inuse && self->goalentity->classname)
@@ -455,19 +481,6 @@ qboolean FindTarget(edict_t* self)
 
 		//FIXME look for monsters?
 		return false;
-	}
-
-	if (self->plantflag) {
-		monster = FindMonster(self);
-		if (monster) {
-			self->enemy = monster;
-			FoundTarget(self);
-			return true;
-		}
-		else {
-			self->enemy = NULL;
-			return false;
-		}
 	}
 
 	// if we're going to a combat point, just proceed
