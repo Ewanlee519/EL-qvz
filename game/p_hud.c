@@ -336,7 +336,7 @@ void HelpComputer (edict_t *ent)
 			"Zombies will come when you start the wave \n Good luck!",
 			"Button Mapping: \n TAB: plant encyclopedia  0-9: pick a plant",
 			"P: plant in open spot  I: inspect a plant\n K: Dig up a plant  G: use sun frenzy",
-			"B: use a kaboom  U: free upgrade \n R: activate lawn mower during desperate times",
+			"B: use a kaboom  U: free upgrade \n R: activate lawn mower  V: Start Wave",
 			//TAB -> view the menu for all of the plants
 		/*	0 - 9->choose your monster
 			P->plant a monster in a spot
