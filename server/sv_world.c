@@ -185,7 +185,7 @@ void SV_LinkEdict (edict_t *ent)
 	VectorSubtract (ent->maxs, ent->mins, ent->size);
 	
 	// encode the size into the entity_state for client prediction
-	if (ent->solid == SOLID_BBOX && !(ent->svflags & SVF_DEADMONSTER))
+	if ((ent->solid == SOLID_BBOX) && !(ent->svflags & SVF_DEADMONSTER))
 	{	// assume that x/y are equal and symetric
 		i = ent->maxs[0]/8;
 		if (i<1)
@@ -321,6 +321,8 @@ void SV_LinkEdict (edict_t *ent)
 
 	if (ent->solid == SOLID_NOT)
 		return;
+	if (ent->solid == SOLID_PLANT)
+		return;
 
 // find the first node that the ent's box crosses
 	node = sv_areanodes;
@@ -372,6 +374,8 @@ void SV_AreaEdicts_r (areanode_t *node)
 
 		if (check->solid == SOLID_NOT)
 			continue;		// deactivated
+		if (check->solid == SOLID_PLANT)
+			continue;
 		if (check->absmin[0] > area_maxs[0]
 		|| check->absmin[1] > area_maxs[1]
 		|| check->absmin[2] > area_maxs[2]
@@ -531,6 +535,8 @@ void SV_ClipMoveToEntities ( moveclip_t *clip )
 	{
 		touch = touchlist[i];
 		if (touch->solid == SOLID_NOT)
+			continue;
+		if (touch->solid == SOLID_PLANT)
 			continue;
 		if (touch == clip->passedict)
 			continue;

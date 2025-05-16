@@ -169,10 +169,13 @@ void berserk_run (edict_t *self)
 
 void berserk_attack_spike (edict_t *self)
 {
-	int kick = 400;
+	int kick = 400, damage = (15 + (rand() % 6));
 	static	vec3_t	aim = {MELEE_DISTANCE, 0, -24};
-	if (skill->value == 3) kick = 0;
-	fire_hit (self, aim, (15 + (rand() % 6)), kick);		//	Faster attack -- upwards and backwards
+	if (skill->value == 3) {
+		kick = 0;
+		damage = 1;
+	}
+	fire_hit (self, aim, damage, kick);		//	Faster attack -- upwards and backwards
 }
 
 
@@ -198,11 +201,14 @@ mmove_t berserk_move_attack_spike = {FRAME_att_c1, FRAME_att_c8, berserk_frames_
 void berserk_attack_club (edict_t *self)
 {
 	vec3_t	aim;
-	int kick;
+	int kick = 400, damage = (5 + (rand() % 6));
 
 	VectorSet (aim, MELEE_DISTANCE, self->mins[0], -4);
-	if (skill->value == 3) kick = 0;
-	fire_hit (self, aim, (5 + (rand() % 6)), kick);		// Slower attack
+	if (skill->value == 3) {
+		kick = 0;
+		damage = 1;
+	}
+	fire_hit (self, aim, damage, kick);		// Slower attack
 }
 
 mframe_t berserk_frames_attack_club [] =
@@ -318,6 +324,9 @@ mmove_t berserk_move_pain2 = {FRAME_painb1, FRAME_painb20, berserk_frames_pain2,
 
 void berserk_pain (edict_t *self, edict_t *other, float kick, int damage)
 {
+	if ((((self->max_health / 2) - self->health) < 10) && Q_stricmp(self->classname, "Smart Zombie") == 0)
+		SmartSwitch(self);
+
 	if (self->health < (self->max_health / 2))
 		self->s.skinnum = 1;
 
@@ -445,12 +454,14 @@ void SP_monster_berserk (edict_t *self)
 
 	self->monsterinfo.stand = berserk_stand;
 	self->monsterinfo.walk = berserk_walk;
-	self->monsterinfo.run = berserk_walk;
+	self->monsterinfo.run = berserk_run;
 	self->monsterinfo.dodge = NULL;
 	self->monsterinfo.attack = NULL;
 	self->monsterinfo.melee = berserk_melee;
 	self->monsterinfo.sight = berserk_sight;
 	self->monsterinfo.search = berserk_search;
+
+	if (skill->value == 3 && Q_stricmp(self->classname, "Fast Zombie")!=0) self->monsterinfo.run = berserk_walk;
 
 	self->monsterinfo.currentmove = &berserk_move_stand;
 	self->monsterinfo.scale = MODEL_SCALE;

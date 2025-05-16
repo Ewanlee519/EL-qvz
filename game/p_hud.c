@@ -323,14 +323,13 @@ void HelpComputer (edict_t *ent)
 			"xv 0 yv 24 cstring2 \"%s\" "		// level name
 			"xv 0 yv 54 cstring2 \"%s\" "		// help 1
 			"xv 0 yv 110 cstring2 \"%s\" "		// help 2
-			"xv 50 yv 164 string2 \" Wave     goals    Zombies\" "
-			"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ",
+			"xv 50 yv 164 string2 \" Wave     Sun    Zombies\" "
+			"xv 50 yv 252 string2 \"%i     %i       %i\" ",
 			sk,
 			level.level_name,
 			"custom message",
 			"another custom message",
-			level.killed_monsters, level.total_monsters,
-			ent->client->pers.sun, ent->client->pers.sun,
+			ent->client->pers.wave,
 			ent->client->pers.sun, ent->client->pers.sun);
 	}
 	else {

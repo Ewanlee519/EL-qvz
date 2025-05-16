@@ -870,6 +870,7 @@ typedef struct
 	int			frenzcount;
 	int			upgcount;
 	int			plant_index;
+	int			wave;
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -1123,6 +1124,6 @@ struct edict_s
 	int				plant_num;
 	int				upgrade_cost;
 	int				plant_cost;
-	int				plantid;
+	int				plant_stage; // used for plants stages and also zombie spawning function
 };
 

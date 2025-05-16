@@ -628,7 +628,8 @@ void InitClientPersistant (gclient_t *client)
 
 	//For init pvz
 	if (skill->value == 3) {
-		client->pers.sun = 150;
+		client->pers.sun = 250;
+		client->pers.wave = 0;
 		client->pers.boomcount = 3;
 		client->pers.freezecount = 3;
 		client->pers.frenzcount = 3;

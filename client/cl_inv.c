@@ -100,41 +100,88 @@ void CL_DrawInventory (void)
 	x = (viddef.width-256)/2;
 	y = (viddef.height-240)/2;
 
-	// repaint everything next frame
-	SCR_DirtyScreen ();
+	cvar_t* skill;
 
-	re.DrawPic (x, y+8, "inventory");
+	skill = Cvar_Get("skill", "1", 0);
+	if ((int) skill->value == 3) {
+		// repaint everything next frame
+		SCR_DirtyScreen();
 
-	y += 24;
-	x += 24;
-	Inv_DrawString (x, y, "hotkey ### item");
-	Inv_DrawString (x, y+8, "------ --- ----");
-	y += 16;
-	for (i=top ; i<num && i < top+DISPLAY_ITEMS ; i++)
-	{
-		item = index[i];
-		// search for a binding
-		Com_sprintf (binding, sizeof(binding), "use %s", cl.configstrings[CS_ITEMS+item]);
-		bind = "";
-		for (j=0 ; j<256 ; j++)
-			if (keybindings[j] && !Q_stricmp (keybindings[j], binding))
-			{
-				bind = Key_KeynumToString(j);
-				break;
-			}
+		re.DrawPic(x, y + 8, "pvzinventory");
 
-		Com_sprintf (string, sizeof(string), "%6s %3i %s", bind, cl.inventory[item],
-			cl.configstrings[CS_ITEMS+item] );
-		if (item != selected)
-			SetStringHighBit (string);
-		else	// draw a blinky cursor by the selected item
+		y += 24;
+		x += 24;
+
+		Inv_DrawString(x, y,	 "plant  key cost stage health upg cost dmg");
+		Inv_DrawString(x, y + 8, "------ --- ---- ----- ------ -------- ---");
+
+		y += 16;
+		for (i = top; i < num && i < top + DISPLAY_ITEMS; i++)
 		{
-			if ( (int)(cls.realtime*10) & 1)
-				re.DrawChar (x-8, y, 15);
+			item = index[i];
+			// search for a binding
+			Com_sprintf(binding, sizeof(binding), "use %s", cl.configstrings[CS_ITEMS + item]);
+			bind = "";
+			for (j = 0; j < 256; j++)
+				if (keybindings[j] && !Q_stricmp(keybindings[j], binding))
+				{
+					bind = Key_KeynumToString(j);
+					break;
+				}
+
+			Com_sprintf(string, sizeof(string), "%6s %3i %s", bind, cl.inventory[item],
+				cl.configstrings[CS_ITEMS + item]);
+			if (item != selected)
+				SetStringHighBit(string);
+			else	// draw a blinky cursor by the selected item
+			{
+				if ((int)(cls.realtime * 10) & 1)
+					re.DrawChar(x - 8, y, 15);
+			}
+			Inv_DrawString(x, y, string);
+			y += 8;
 		}
-		Inv_DrawString (x, y, string);
-		y += 8;
 	}
+	else {
+		// repaint everything next frame
+		SCR_DirtyScreen();
+
+		re.DrawPic(x, y + 8, "inventory");
+
+		y += 24;
+		x += 24;
+
+		Inv_DrawString(x, y, "hotkey ### item");
+		Inv_DrawString(x, y + 8, "------ --- ----");
+
+		y += 16;
+		for (i = top; i < num && i < top + DISPLAY_ITEMS; i++)
+		{
+			item = index[i];
+			// search for a binding
+			Com_sprintf(binding, sizeof(binding), "use %s", cl.configstrings[CS_ITEMS + item]);
+			bind = "";
+			for (j = 0; j < 256; j++)
+				if (keybindings[j] && !Q_stricmp(keybindings[j], binding))
+				{
+					bind = Key_KeynumToString(j);
+					break;
+				}
+
+			Com_sprintf(string, sizeof(string), "%6s %3i %s", bind, cl.inventory[item],
+				cl.configstrings[CS_ITEMS + item]);
+			if (item != selected)
+				SetStringHighBit(string);
+			else	// draw a blinky cursor by the selected item
+			{
+				if ((int)(cls.realtime * 10) & 1)
+					re.DrawChar(x - 8, y, 15);
+			}
+			Inv_DrawString(x, y, string);
+			y += 8;
+		}
+	}
+	
 
 
 }

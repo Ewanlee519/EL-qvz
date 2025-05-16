@@ -503,7 +503,11 @@ void soldier_fire (edict_t *self, int flash_number)
 
 	if (self->s.skinnum <= 1)
 	{
-		monster_fire_blaster (self, start, aim, 5, 600, flash_index, EF_BLASTER);
+		if(skill->value==3)
+			monster_fire_blaster(self, start, forward, 5, 600, flash_index, EF_BLASTER);
+
+		else
+			monster_fire_blaster (self, start, aim, 5, 600, flash_index, EF_BLASTER);
 	}
 	else if (self->s.skinnum <= 3)
 	{
