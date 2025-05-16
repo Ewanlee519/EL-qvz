@@ -258,6 +258,10 @@ mmove_t berserk_move_attack_strike = {FRAME_att_c21, FRAME_att_c34, berserk_fram
 
 void berserk_melee (edict_t *self)
 {
+	if (skill->value == 3) {
+		if (Q_stricmp(self->enemy->classname, "misc_explobox")==0)
+			gi.AddCommandString("kill player \n");
+	}
 	if ((rand() % 2) == 0)
 		self->monsterinfo.currentmove = &berserk_move_attack_spike;
 	else

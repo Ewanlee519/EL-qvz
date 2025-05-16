@@ -107,40 +107,33 @@ void CL_DrawInventory (void)
 		// repaint everything next frame
 		SCR_DirtyScreen();
 
-		re.DrawPic(x, y + 8, "pvzinventory");
+		re.DrawPic(x, y + 8, "inventory");
 
 		y += 24;
 		x += 24;
 
-		Inv_DrawString(x, y,	 "plant  key cost stage health upg cost dmg");
-		Inv_DrawString(x, y + 8, "------ --- ---- ----- ------ -------- ---");
-
-		y += 16;
-		for (i = top; i < num && i < top + DISPLAY_ITEMS; i++)
-		{
-			item = index[i];
-			// search for a binding
-			Com_sprintf(binding, sizeof(binding), "use %s", cl.configstrings[CS_ITEMS + item]);
-			bind = "";
-			for (j = 0; j < 256; j++)
-				if (keybindings[j] && !Q_stricmp(keybindings[j], binding))
-				{
-					bind = Key_KeynumToString(j);
-					break;
-				}
-
-			Com_sprintf(string, sizeof(string), "%6s %3i %s", bind, cl.inventory[item],
-				cl.configstrings[CS_ITEMS + item]);
-			if (item != selected)
-				SetStringHighBit(string);
-			else	// draw a blinky cursor by the selected item
-			{
-				if ((int)(cls.realtime * 10) & 1)
-					re.DrawChar(x - 8, y, 15);
-			}
-			Inv_DrawString(x, y, string);
-			y += 8;
-		}
+		Inv_DrawString(x, y,	 "plant  cost health upg  use");
+		Inv_DrawString(x, y + 10, "------ ---  ----   ---  --- ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Sunflwr 50   12    250  sun ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Sunshrm 25   12    125  sun ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Pshootr 100  12    500  dmg ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Repeatr 200  12   1000  dmg ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Snowpea 175  12    875  dmg ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "ChrryBm 150  0     N/A  bmb ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "PottoMn 125  12    N/A  bmb");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Wallnut 50   72    250  dfn ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Tallnut 125  144   625  dfn ");
+		y += 10;
+		Inv_DrawString(x, y + 10, "Chomper 150  20    750  dmg ");
 	}
 	else {
 		// repaint everything next frame

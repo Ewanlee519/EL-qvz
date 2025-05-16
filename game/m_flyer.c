@@ -532,6 +532,10 @@ void flyer_pain (edict_t *self, edict_t *other, float kick, int damage)
 {
 	int		n;
 
+	if (skill->value == 3)
+		ExplodePlant(self);
+
+
 	if (self->health < (self->max_health / 2))
 		self->s.skinnum = 1;
 
@@ -567,6 +571,13 @@ void flyer_die(edict_t *self, edict_t *inflictor, edict_t *attacker, int damage,
 	BecomeExplosion1(self);
 }
 	
+void flyer_plant(edict_t* ent) {
+	return;
+}
+
+void flyer_plant2(edict_t* ent) {
+	return;
+}
 
 /*QUAKED monster_flyer (1 .5 0) (-16 -16 -24) (16 16 32) Ambush Trigger_Spawn Sight
 */
@@ -616,6 +627,13 @@ void SP_monster_flyer (edict_t *self)
 	self->monsterinfo.melee = flyer_melee;
 	self->monsterinfo.sight = flyer_sight;
 	self->monsterinfo.idle = flyer_idle;
+
+	if (skill->value == 3) {
+		self->monsterinfo.run = flyer_plant;
+		self->monsterinfo.attack = flyer_plant;
+		self->monsterinfo.melee = flyer_plant;
+		self->monsterinfo.sight = flyer_plant2;
+	}
 
 	gi.linkentity (self);
 

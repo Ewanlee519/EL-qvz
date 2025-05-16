@@ -781,6 +781,14 @@ void tank_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage,
 }
 
 
+void tank_plant(edict_t* ent) {
+	return;
+}
+
+void tank_plant1(edict_t* ent, edict_t* other) {
+	return;
+}
+
 //
 // monster_tank
 //
@@ -844,6 +852,13 @@ void SP_monster_tank (edict_t *self)
 	self->monsterinfo.sight = tank_sight;
 	self->monsterinfo.idle = tank_idle;
 
+	if (skill->value == 3) {
+		self->monsterinfo.attack = tank_plant;
+		self->monsterinfo.melee = NULL;
+		self->monsterinfo.sight = tank_plant1;
+
+	}
+
 	gi.linkentity (self);
 	
 	self->monsterinfo.currentmove = &tank_move_stand;
@@ -852,5 +867,8 @@ void SP_monster_tank (edict_t *self)
 	walkmonster_start(self);
 
 	if (strcmp(self->classname, "monster_tank_commander") == 0)
+		self->s.skinnum = 2;
+
+	if (strcmp(self->classname, "Tallnut") == 0)
 		self->s.skinnum = 2;
 }

@@ -486,6 +486,8 @@ void hover_attack(edict_t *self)
 
 void hover_pain (edict_t *self, edict_t *other, float kick, int damage)
 {
+	if (skill->value == 3)
+		Lawnmower(self);
 	if (self->health < (self->max_health / 2))
 		self->s.skinnum = 1;
 

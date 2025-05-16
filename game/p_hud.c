@@ -318,19 +318,41 @@ void HelpComputer (edict_t *ent)
 	if (skill->value == 3) {
 		// send the layout
 		Com_sprintf(string, sizeof(string),
-			"xv -52 yv -20 picn pvzhelp "			// background
-			"xv 202 yv 12 string2 \"%s\" "		// skill
-			"xv 0 yv 24 cstring2 \"%s\" "		// level name
-			"xv 0 yv 54 cstring2 \"%s\" "		// help 1
-			"xv 0 yv 110 cstring2 \"%s\" "		// help 2
-			"xv 50 yv 164 string2 \" Wave     Sun    Zombies\" "
-			"xv 50 yv 252 string2 \"%i     %i       %i\" ",
+			"xv -46 yv -10 picn pvzhelp "			// background
+			"xv 222 yv -2 string2 \"%s\" "		// skill
+			"xv -2 yv 20 cstring2 \"%s\" "		// level name
+			"xv 0 yv 54 cstring2 \"%s\" "		// info 1
+			"xv 0 yv 74 cstring2 \"%s\" "		// info 2
+			"xv 0 yv 94 cstring2 \"%s\" "		// info 2
+			"xv -10 yv 140 cstring2 \"%s\" "		// buttons 1
+			"xv -10 yv 160 cstring2 \"%s\" "		// buttons 2
+			"xv -10 yv 180 cstring2 \"%s\" "		// buttons 2
+			"xv -25 yv 234 string2 \" Wave  Sun       Boom  Freeze   Frenzy Upgr\" "
+			"xv -25 yv 250 string2 \"  %i     %i          %i    %i       %i      %i\" ",
 			sk,
-			level.level_name,
-			"custom message",
-			"another custom message",
+			"Plants vs Zombies Mod",
+			"Intro and How to Play: \n You choose 1 of 10 plants using number keys.",
+			"Some plants make sun, you need sun to plant \n You can view plant info with I.",
+			"Zombies will come when you start the wave \n Good luck!",
+			"Button Mapping: \n TAB: plant encyclopedia  0-9: pick a plant",
+			"P: plant in open spot  I: inspect a plant\n K: Dig up a plant  G: use sun frenzy",
+			"B: use a kaboom  U: free upgrade \n R: activate lawn mower during desperate times",
+			//TAB -> view the menu for all of the plants
+		/*	0 - 9->choose your monster
+			P->plant a monster in a spot
+			I->inspect the stats of the plants
+			K->dig up the plants for 1 / 4 sun back
+			F->freeze power up
+			G->sun frenzy power up(based on sun plants you have)
+			B->kaboom power up
+			U->upgrade power up
+			R->activate hover lawnmowers for desperate measure*/
 			ent->client->pers.wave,
-			ent->client->pers.sun, ent->client->pers.sun);
+			ent->client->pers.sun, 
+			ent->client->pers.boomcount,
+			ent->client->pers.freezecount, 
+			ent->client->pers.frenzcount, 
+			ent->client->pers.upgcount);
 	}
 	else {
 		// send the layout
@@ -349,6 +371,8 @@ void HelpComputer (edict_t *ent)
 			level.killed_monsters, level.total_monsters,
 			level.found_goals, level.total_goals,
 			level.found_secrets, level.total_secrets);
+
+		
 	}
 
 	gi.WriteByte (svc_layout);

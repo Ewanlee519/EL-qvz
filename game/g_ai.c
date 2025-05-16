@@ -403,44 +403,15 @@ edict_t* PVZFindEnemy(edict_t* self)
 	VectorCopy(self->s.origin, start);
 	start[2] += self->viewheight; // Adjust to eye height
 
-	//for (int i = 1; i < globals.num_edicts; i++) {
-	//	edict_t* target = &g_edicts[i];
-	//	if (!target || target == self)
-	//		continue;
-	//	if (!(target->svflags & SVF_MONSTER))
-	//		continue;
-	//	if (target->client != NULL)
-	//		continue;
-	//	if (self->plantflag) {
-	//		if (target->plantflag)
-	//			continue;
-	//	}
-	//	else {
-	//		if (!target->plantflag)
-	//			continue;
-	//		if (Q_stricmp(target->classname, "monster_hover") == 0)
-	//			continue;
-	//	}
-	//	if (fabs(target->s.origin[1] - self->s.origin[1]) > 10)
-	//		continue;
-	//	//if (target->s.origin[0] <= self->s.origin[0]) continue;
-	//	if (!target->health || target->health < 1)
-	//		continue;
-
-	//	if (!best || target->max_health > best->max_health) {
-	//		best = target;
-	//	}
-	//}
-
-	//return best;
-
-	// Trace forward in increments (simulate a cone of vision)
-	for (float dist = 128; dist <= 1024; dist += 128) {
+	for (float dist = 128; dist <= 1280; dist += 128) {
 		VectorMA(start, dist, forward, end); // end = start + forward * dist
 
 		tr = gi.trace(start, NULL, NULL, end, self, MASK_SHOT);
 
 		target = tr.ent;
+
+		if (Q_stricmp(target->classname, "misc_explobox") == 0 && !self->plantflag)
+			best = target;
 
 		if (!target || target == self)
 			continue;
@@ -454,8 +425,6 @@ edict_t* PVZFindEnemy(edict_t* self)
 		}
 		else {
 			if (!target->plantflag)
-				continue;
-			if (Q_stricmp(target->classname, "monster_hover") == 0)
 				continue;
 		}
 		if (!target->health || target->health < 1)
